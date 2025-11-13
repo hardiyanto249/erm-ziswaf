@@ -103,23 +103,23 @@ const Dashboard: React.FC<DashboardProps> = ({risks}) => {
 
 
     return (
-        <div className="space-y-8">
-            <h1 className="text-3xl font-bold text-white mb-6">Dashboard Overview</h1>
-            
+        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">Dashboard Overview</h1>
+
             {/* Early Warning System Banner */}
             <EarlyWarningBanner messages={warningMessages} />
 
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {kpiData.map(kpi => <KpiCard key={kpi.title} {...kpi} />)}
             </div>
-            
+
             {/* Reputational Risk Indicators */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-base-100 p-6 rounded-xl shadow-lg">
-                    <h3 className="text-xl font-semibold text-white mb-4">Reputational Risk Indicators</h3>
-                    <p className="text-sm text-base-content mb-6">Monitoring key ratios to prevent fraud and maintain public trust (Amanah).</p>
-                    <div className="flex flex-col md:flex-row items-center justify-around gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <div className="bg-base-100 p-4 sm:p-6 rounded-xl shadow-lg">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-4">Reputational Risk Indicators</h3>
+                    <p className="text-xs sm:text-sm text-base-content mb-4 sm:mb-6">Monitoring key ratios to prevent fraud and maintain public trust (Amanah).</p>
+                    <div className="flex flex-col md:flex-row items-center justify-around gap-4 sm:gap-6">
                         <GaugeChart
                             value={parseFloat(rhaValue.toFixed(1))}
                             maxValue={25}
@@ -138,24 +138,24 @@ const Dashboard: React.FC<DashboardProps> = ({risks}) => {
                         />
                     </div>
                 </div>
-                <div className="bg-base-100 p-6 rounded-xl shadow-lg flex flex-col">
-                    <h3 className="text-xl font-semibold text-white mb-4">High Priority Risks</h3>
-                    <p className="text-sm text-base-content mb-4">Risks requiring immediate attention.</p>
+                <div className="bg-base-100 p-4 sm:p-6 rounded-xl shadow-lg flex flex-col">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-4">High Priority Risks</h3>
+                    <p className="text-xs sm:text-sm text-base-content mb-2 sm:mb-4">Risks requiring immediate attention.</p>
                     <div className="flex-grow overflow-y-auto">
                         <RiskTable risks={highPriorityRisks} isCompact={true} />
                     </div>
                 </div>
             </div>
             {/* Risk Matrix */}
-            <div className="bg-base-100 p-6 rounded-xl shadow-lg">
+            <div className="bg-base-100 p-4 sm:p-6 rounded-xl shadow-lg">
                 <RiskMatrix risks={risks} />
             </div>
              {/* Risk Category Distribution Chart */}
-            <div className="bg-base-100 p-6 rounded-xl shadow-lg">
+            <div className="bg-base-100 p-4 sm:p-6 rounded-xl shadow-lg">
                  <RiskCategoryChart data={categoryChartData} />
             </div>
             {/* Risk Trend Chart */}
-            <div className="bg-base-100 p-6 rounded-xl shadow-lg">
+            <div className="bg-base-100 p-4 sm:p-6 rounded-xl shadow-lg">
                 <RiskTrendChart />
             </div>
         </div>

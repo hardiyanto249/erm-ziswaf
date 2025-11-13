@@ -60,12 +60,13 @@ const RiskMatrix: React.FC<RiskMatrixProps> = ({ risks }) => {
 
 
     return (
-        <div className="relative pt-8 pl-8 pb-8">
+        <div className="relative pt-8 pl-8 pb-8 w-full max-w-full overflow-auto">
             <h3 className="text-xl font-semibold text-white mb-4">Risk Matrix (Impact vs. Likelihood)</h3>
             <p className="text-sm text-base-content mb-6">
                 Visual representation of the current risk landscape. Each cell shows the number of risks for a given combination.
             </p>
-            <div className="grid grid-cols-[auto_1fr_1fr_1fr] grid-rows-[auto_1fr_1fr_1fr_1fr] gap-1.5 bg-base-200 rounded-lg p-2">
+            <div className="w-full max-w-sm mx-auto sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl transform scale-75 origin-center">
+                <div className="grid grid-cols-[auto_1fr_1fr_1fr] grid-rows-[auto_1fr_1fr_1fr_1fr] gap-1.5 bg-base-200 rounded-lg p-2 mx-auto">
                 {/* Top-left empty cell */}
                 <div />
 
@@ -100,8 +101,9 @@ const RiskMatrix: React.FC<RiskMatrixProps> = ({ risks }) => {
                         })}
                     </React.Fragment>
                 ))}
+                </div>
             </div>
-             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-lg font-bold text-white">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-lg font-bold text-white">
                 <span>Likelihood</span>
             </div>
             <div className="absolute top-1/2 -left-4 -translate-y-1/2 -rotate-90 text-lg font-bold text-white">
