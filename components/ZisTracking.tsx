@@ -1,12 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend, BarChart, CartesianGrid, XAxis, YAxis, Bar } from 'recharts';
-import { apiService } from '../services/apiService';
 
 // --- Reusable Components ---
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-    <div className="bg-base-100 p-4 sm:p-6 rounded-xl shadow-lg">
-        <h2 className="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-4">{title}</h2>
+    <div className="bg-base-100 p-6 rounded-xl shadow-lg">
+        <h2 className="text-2xl font-bold text-white mb-4">{title}</h2>
         {children}
     </div>
 );
@@ -48,69 +47,43 @@ const formatCurrency = (value: number) => `Rp ${new Intl.NumberFormat('id-ID').f
 
 
 const ZisTracking: React.FC = () => {
-     const [totalCollected, setTotalCollected] = useState(0);
-     const [totalDistributed, setTotalDistributed] = useState(0);
-     const [donors, setDonors] = useState(0);
-     const [beneficiaries, setBeneficiaries] = useState(0);
-     const [loading, setLoading] = useState(true);
+    const [totalCollected, setTotalCollected] = useState(925000000);
+    const [totalDistributed, setTotalDistributed] = useState(710000000);
 
-     useEffect(() => {
-         const fetchZisStats = async () => {
-             try {
-                 const stats = await apiService.getZisStats();
-                 setTotalCollected(stats.data.collection_total);
-                 setTotalDistributed(stats.data.distribution_total);
-                 setDonors(stats.data.donors);
-                 setBeneficiaries(stats.data.beneficiaries);
-             } catch (error) {
-                 console.error('Failed to fetch ZIS stats:', error);
-                 // Fallback to mock data if backend is not available
-                 setTotalCollected(925000000);
-                 setTotalDistributed(710000000);
-                 setDonors(15480);
-                 setBeneficiaries(8950);
-             } finally {
-                 setLoading(false);
-             }
-         };
-
-         fetchZisStats();
-
-         // Keep real-time updates for demo purposes
-         const interval = setInterval(() => {
-             setTotalCollected(prev => prev + Math.floor(Math.random() * 1000000));
-             setTotalDistributed(prev => prev + Math.floor(Math.random() * 800000));
-         }, 3000); // Update every 3 seconds
-
-         return () => clearInterval(interval);
-     }, []);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTotalCollected(prev => prev + Math.floor(Math.random() * 1000000));
+            setTotalDistributed(prev => prev + Math.floor(Math.random() * 800000));
+        }, 3000); // Update every 3 seconds
+        return () => clearInterval(interval);
+    }, []);
 
     const managedFunds = totalCollected - totalDistributed;
-     const operationalEfficiency = ((totalDistributed / totalCollected) * 100).toFixed(2);
+    const operationalEfficiency = ((85000000 / totalCollected) * 100).toFixed(2);
 
 
     return (
-        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+        <div className="space-y-8">
             <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white">Monitoring & Tracking ZIS</h1>
-                <p className="mt-2 text-sm sm:text-base text-base-content max-w-3xl">
+                <h1 className="text-3xl font-bold text-white">Monitoring & Tracking ZIS</h1>
+                <p className="mt-2 text-base-content max-w-3xl">
                     Overview of the Zakat, Infaq, and Sadaqah fund lifecycle from collection to distribution.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* --- PENGHIMPUNAN --- */}
-                <div className="lg:col-span-1 space-y-4 sm:space-y-6">
+                <div className="lg:col-span-1 space-y-6">
                     <Section title="Penghimpunan (Collection)">
-                        <div className="space-y-3 sm:space-y-4">
+                        <div className="space-y-4">
                             <KpiCard title="Total Dana Terhimpun" value={formatCurrency(totalCollected)} icon={<CollectionIcon />} />
-                            <KpiCard title="Jumlah Muzakki" value={donors.toLocaleString()} icon={<DonorIcon />} />
-                            <KpiCard title="Rata-rata Donasi" value={formatCurrency(totalCollected / (donors || 1))} icon={<CollectionIcon />} />
+                            <KpiCard title="Jumlah Muzakki" value="15,480" icon={<DonorIcon />} />
+                            <KpiCard title="Rata-rata Donasi" value={formatCurrency(totalCollected / 15480)} icon={<CollectionIcon />} />
                         </div>
-                        <div className="h-48 sm:h-64 mt-4 sm:mt-6">
+                        <div className="h-64 mt-6">
                              <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={collectionData} cx="50%" cy="50%" labelLine={false} outerRadius={60} fill="#8884d8" dataKey="value" nameKey="name">
+                                    <Pie data={collectionData} cx="50%" cy="50%" labelLine={false} outerRadius={80} fill="#8884d8" dataKey="value" nameKey="name">
                                         {collectionData.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                         ))}
@@ -124,10 +97,10 @@ const ZisTracking: React.FC = () => {
                 </div>
 
                 {/* --- PENGELOLAAN & PENDISTRIBUSIAN --- */}
-                <div className="lg:col-span-2 space-y-6 sm:space-y-8">
+                <div className="lg:col-span-2 space-y-8">
                      {/* --- PENGELOLAAN --- */}
                     <Section title="Pengelolaan (Management)">
-                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <KpiCard title="Dana Kelolaan Saat Ini" value={formatCurrency(managedFunds)} icon={<ManagementIcon />} />
                             <KpiCard title="Efisiensi Operasional" value={`${operationalEfficiency}%`} icon={<ManagementIcon />} />
                              <KpiCard title="Dana Produktif" value={formatCurrency(150000000)} icon={<ManagementIcon />} />
@@ -136,17 +109,17 @@ const ZisTracking: React.FC = () => {
 
                     {/* --- PENDISTRIBUSIAN --- */}
                     <Section title="Pendistribusian (Distribution)">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                              <KpiCard title="Total Dana Tersalurkan" value={formatCurrency(totalDistributed)} icon={<DistributionIcon />} />
-                             <KpiCard title="Jumlah Mustahik" value={beneficiaries.toLocaleString()} icon={<BeneficiaryIcon />} />
+                             <KpiCard title="Jumlah Mustahik" value="8,950" icon={<BeneficiaryIcon />} />
                              <KpiCard title="Jangkauan Program" value="15 Provinsi" icon={<DistributionIcon />} />
                         </div>
-                        <div className="h-64 sm:h-72">
+                        <div className="h-72">
                              <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={distributionData} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
                                     <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.1} />
                                     <XAxis type="number" stroke="#a6adbb" tickFormatter={(value) => `${value / 1000000} Jt`} />
-                                    <YAxis type="category" dataKey="name" stroke="#a6adbb" width={60} tick={{ fontSize: 11 }} />
+                                    <YAxis type="category" dataKey="name" stroke="#a6adbb" width={80} tick={{ fontSize: 12 }} />
                                     <Tooltip formatter={(value: number) => formatCurrency(value)} cursor={{ fill: 'rgba(107, 114, 128, 0.1)' }} />
                                     <Bar dataKey="Saldo" fill="#36d399" name="Disalurkan" />
                                 </BarChart>
